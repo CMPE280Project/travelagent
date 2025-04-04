@@ -52,23 +52,6 @@ This is a full-stack travel assistant application powered by OpenAI's function c
 
 ---
 
-## 💬 Example Tool Logic (LLM-Based)
-
-```js
-async function getWeather(city, month) {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [
-      { role: "system", content: "You are a travel assistant providing typical seasonal weather info." },
-      { role: "user", content: `What is the usual weather in ${city} during ${month}?` }
-    ]
-  });
-  return completion.choices[0].message.content;
-}
-```
-
----
-
 ## 📚 Why Agentic AI?
 
 Instead of just responding with static LLM text, this Agentic AI(With Tool Use + Function Calling):
@@ -88,4 +71,3 @@ Instead of just responding with static LLM text, this Agentic AI(With Tool Use +
 
 ---
 
-Built by Arpitha with ❤️
