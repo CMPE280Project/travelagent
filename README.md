@@ -14,12 +14,12 @@ This is a full-stack travel assistant application powered by OpenAI's function c
 
 ## How to build and run?
 
-**Clone repo:** git clone https://github.com/CMPE280Project/travelagent.git
+**Clone repo:** git clone https://github.com/CMPE280Project/travelagent.git  
 **Build travelagent-api:** npm install  
-**Build travelagent-ui:** npm install
-**Include OpenAI key in travelagent-api:** Include your OpenAI Key in the placeholder of .env file
-**Run travelagent-api:** node index.js -> backend application runs on http://localhost:3001
-**Run travelagent-ui:** npm run dev -> ui application runs on http://localhost:5173
+**Build travelagent-ui:** npm install  
+**Include OpenAI key in travelagent-api:** Include your OpenAI Key in the placeholder of .env file  
+**Run travelagent-api:** node index.js -> backend application runs on http://localhost:3001  
+**Run travelagent-ui:** npm run dev -> ui application runs on http://localhost:5173  
 
 
 ---
