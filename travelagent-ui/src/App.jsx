@@ -137,6 +137,18 @@ function App() {
     }
   };
 
+  const handleDeleteChat = (idToDelete) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this chat?');
+    if (!confirmDelete) return; // If user clicks 'Cancel', just exit
+
+    const filtered = sessions.filter(s => s.id !== idToDelete);
+    setSessions(filtered);
+
+    if (activeSessionId === idToDelete) {
+      setActiveSessionId(filtered.length > 0 ? filtered[0].id : null);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -151,67 +163,85 @@ function App() {
           {sessions.map(session => (
             <div
               key={session.id}
-              onClick={() => setActiveSessionId(session.id)}
-              className={`px-3 py-2 rounded cursor-pointer text-sm ${
-                session.id === activeSessionId
+              className={`flex items-center justify-between px-3 py-2 rounded text-sm ${session.id === activeSessionId
                   ? 'bg-gray-700 text-white'
-                  : 'hover:bg-gray-800'
-              }`}
+                  : 'hover:bg-gray-800 cursor-pointer'
+                }`}
             >
-              {session.title}
+              <span
+                onClick={() => setActiveSessionId(session.id)}
+                className="flex-1 truncate"
+              >
+                {session.title}
+              </span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteChat(session.id);
+                }}
+                className="ml-2 text-red-400 hover:text-red-600"
+                title="Delete chat"
+              >
+                ✕
+              </button>
             </div>
           ))}
+
         </div>
       </div>
 
       {/* Chat Area */}
-      {/* Chat Area */}
-<div className="flex-1 flex flex-col p-6 h-screen overflow-hidden">
-  <h1 className="text-2xl font-bold mb-4 text-center flex-shrink-0">Agentic Travel Planner</h1>
-  
-  {/* Scrollable chat area */}
-  <div className="flex-1 overflow-y-auto bg-white p-4 rounded shadow text-sm mb-4">
-    {activeSession?.history?.length === 0 ? (
-      <p className="text-gray-400 italic">Start a conversation to see messages here.</p>
-    ) : (
-      activeSession?.history?.map((msg, index) => (
-        <div key={index} className="mb-4">
-          <p className="text-blue-700 font-semibold">You:</p>
-          <p className="mb-1">{msg.user}</p>
-          <p className="text-green-700 font-semibold">Agent:</p>
-          <div className="whitespace-pre-wrap">{msg.bot || '...'}</div>
-        </div>
-      ))
-    )}
-    <div ref={bottomRef} />
-  </div>
+      <div className="flex-1 flex flex-col p-6 h-screen overflow-hidden">
+        <h1 className="text-2xl font-bold mb-4 text-center flex-shrink-0">Agentic Travel Planner</h1>
 
-  {/* Input area stays fixed at the bottom */}
-  <div className="flex space-x-3 flex-shrink-0">
-    <input
-      type="text"
-      value={input}
-      disabled={!activeSessionId}
-      onChange={(e) => setInput(e.target.value)}
-      placeholder="Ask anything..."
-      className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-    <button
-      onClick={handleSend}
-      disabled={isSending || !activeSessionId}
-      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md disabled:opacity-50"
-    >
-      Send
-    </button>
-    <button
-      onClick={handleCancel}
-      disabled={!isSending}
-      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md disabled:opacity-50"
-    >
-      Cancel
-    </button>
-  </div>
-</div>
+        {/* Scrollable chat area */}
+        <div className="flex-1 overflow-y-auto bg-white p-4 rounded shadow text-sm mb-4">
+          {activeSession?.history?.length === 0 ? (
+            <p className="text-gray-400 italic">Start a conversation to see messages here.</p>
+          ) : (
+            activeSession?.history?.map((msg, index) => (
+              <div key={index} className="mb-4">
+                <p className="text-blue-700 font-semibold">You:</p>
+                <p className="mb-1">{msg.user}</p>
+                <p className="text-green-700 font-semibold">Agent:</p>
+                <div className="whitespace-pre-wrap">{msg.bot || '...'}</div>
+              </div>
+            ))
+          )}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Input area stays fixed at the bottom */}
+        <div className="flex space-x-3 flex-shrink-0">
+          <input
+            type="text"
+            value={input}
+            disabled={!activeSessionId}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !isSending) {
+                handleSend();
+              }
+            }}
+            placeholder="Ask anything..."
+            className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={handleSend}
+            disabled={isSending || !activeSessionId}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md disabled:opacity-50"
+          >
+            Send
+          </button>
+          <button
+            onClick={handleCancel}
+            disabled={!isSending}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md disabled:opacity-50"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
 
     </div>
   );
