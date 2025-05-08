@@ -1,6 +1,5 @@
 from crewai import Agent, Task, Crew
-from langchain_community.tools import DuckDuckGoSearchRun
-from langchain.llms import Ollama
+import Ollama
 import streamlit
 
 st.set_page_config(page_title="🌍 AI Travel Planner", layout="wide")
