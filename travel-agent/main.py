@@ -3,10 +3,9 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.llms import Ollama
 import streamlit
 
-# Initialize LLM and tools
 st.set_page_config(page_title="🌍 AI Travel Planner", layout="wide")
 
-# UI Styles
+
 st.markdown(
     """
     <style>
@@ -70,11 +69,10 @@ st.markdown(
 )
 
 
-# Title and Subtitle
 st.markdown('<h1 class="title">✈️ AI-Powered Travel Planner</h1>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Plan your dream trip with AI! Get personalized itineraries based on your preferences.</p>', unsafe_allow_html=True)
 
-# User Inputs (Simplified UI)
+
 st.markdown("### 🌍 Where are you headed?")
 destination = st.text_input("🛬 Destination (IATA Code):", "DEL")
 
@@ -85,13 +83,8 @@ travel_theme = st.selectbox("🎭 Select Your Travel Theme:", [
 ])
 activity_preferences = st.text_area("🌍 What activities do you enjoy?", "Relaxing on the beach, exploring historical sites")
 
-# Inputs
-destination = "Tokyo"
-duration = 3
-interests = 'Food'
-budget = "medium"
 
-# Researcher Agent
+
 researcher = Agent(
     role='Researcher',
     goal=f"Research new places in {destination}.",
@@ -102,7 +95,6 @@ researcher = Agent(
     llm=ollama_model
 )
 
-# Tour Guide Agent
 writer = Agent(
     role='Tour Guide',
     goal=f"Create a travel itinerary in {destination} for a {duration}-day trip with a focus on {interests} and a {budget} budget.",
@@ -128,5 +120,5 @@ if st.button("🚀 Generate Travel Itinerary"):
         )
         itinerary = planner.run(itinerary_prompt, stream=False)
 
-    # Output
+
     st.subheader("🗓️ Your AI Travel Itinerary")
